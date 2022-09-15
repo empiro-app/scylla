@@ -1,24 +1,16 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import Scylla from './components/scylla';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='App'>
+      <Scylla
+        pdfName='empiro'
+        html='<strong>Hello world! My name is {{name}}</strong>'
+        data={{
+          name: 'Alex',
+        }}
+        exportButton={true}
+        exportButtonLabel='Export'
+      />
     </div>
   );
 }
