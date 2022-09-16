@@ -1,15 +1,13 @@
-import Scylla from './components/scylla';
+import ScyllaViewer from './components/viewer';
 function App() {
   return (
     <div className='App'>
-      <Scylla
+      <ScyllaViewer
         pdfName='empiro'
         html='<strong>Hello world! My name is {{name}}</strong>'
         data={{
           name: 'Alex',
         }}
-        exportButton={true}
-        exportButtonLabel='Export'
       />
     </div>
   );
