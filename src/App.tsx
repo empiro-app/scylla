@@ -3,14 +3,23 @@ import ScyllaEditor from './components/editor';
 function App() {
   return (
     <div className='App'>
-      {/* <ScyllaViewer
-        pdfName='empiro'
-        html='<strong>Hello world! My name is {{name}}</strong>'
-        data={{
-          name: 'Alex',
+      <ScyllaEditor
+        proMode={false}
+        editor={{
+          bold: {
+            enabled: true,
+          },
+          italic: {
+            enabled: true,
+          },
+          underline: {
+            enabled: true,
+          },
+          strikethrough: {
+            enabled: true,
+          },
         }}
-      /> */}
-      <ScyllaEditor proMode={false} />
+      />
     </div>
   );
 }
