@@ -18,6 +18,9 @@ function App() {
           strikethrough: {
             enabled: true,
           },
+          docsImporter: {
+            enabled: true,
+          },
         }}
       />
     </div>

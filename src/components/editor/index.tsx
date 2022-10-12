@@ -20,7 +20,7 @@ interface Props {
     };
     docsImporter?: {
       enabled: boolean;
-      onImport: (doc: any) => void;
+      onImport?: (doc: any) => void;
     };
     toolbarContainer?: {
       styles: string;

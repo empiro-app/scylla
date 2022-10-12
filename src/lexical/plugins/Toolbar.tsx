@@ -8,7 +8,6 @@ import {
   RangeSelection,
 } from 'lexical';
 import { TOGGLE_LINK_COMMAND, $isLinkNode } from '@lexical/link';
-import React from 'react';
 import {
   faBold,
   faItalic,
@@ -16,6 +15,7 @@ import {
   faStrikethrough,
 } from '@fortawesome/free-solid-svg-icons';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import { importDocx } from '../../controls/mammoth';
 interface Props {
   editor?: {
     container?: {
@@ -23,7 +23,7 @@ interface Props {
     };
     docsImporter?: {
       enabled: boolean;
-      onImport: (doc: any) => void;
+      onImport?: (doc: any) => void;
     };
     textArea?: {
       placeholder?: string;
@@ -170,6 +170,20 @@ const Toolbar = (props: Props) => {
             <FontAwesomeIcon icon={faStrikethrough} />
           )}
         </button>
+      )}
+      {props.editor?.docsImporter?.enabled && (
+        <input
+          type='file'
+          name='docx'
+          onChange={async (e) => {
+            if (e.target.files && e.target.files?.length > 0) {
+              const file: File = e.target.files[0];
+              file.arrayBuffer().then(async (buffer) => {
+                let x = Buffer.from(buffer);
+              });
+            }
+          }}
+        />
       )}
     </div>
   );
