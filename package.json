@@ -17,26 +17,35 @@
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
     "ace-builds": "^1.10.1",
+    "assert": "^2.0.0",
     "buffer": "^6.0.3",
     "clsx": "^1.2.1",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
     "jspdf": "^2.5.1",
     "lexical": "^0.4.1",
     "mammoth": "^1.5.1",
     "mustache": "^4.2.0",
+    "os-browserify": "^0.3.0",
     "path": "^0.12.7",
+    "process": "^0.11.10",
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
+    "react-app-polyfill": "^3.0.0",
     "react-dom": "^18.2.0",
     "react-scripts": "^5.0.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "typescript": "^4.8.3",
+    "url": "^0.11.0",
     "util": "^0.12.4",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "preinstall": "npx npm-force-resolutions",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "resolutions": {
@@ -60,5 +69,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "react-app-rewired": "^2.2.1"
   }
 }

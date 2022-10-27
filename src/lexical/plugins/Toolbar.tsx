@@ -1,13 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { mergeRegister } from '@lexical/utils';
-import {
-  $getSelection,
-  $isRangeSelection,
-  FORMAT_TEXT_COMMAND,
-  RangeSelection,
-} from 'lexical';
-import { TOGGLE_LINK_COMMAND, $isLinkNode } from '@lexical/link';
+import { $getSelection, $isRangeSelection, FORMAT_TEXT_COMMAND } from 'lexical';
 import {
   faBold,
   faItalic,
@@ -61,22 +55,16 @@ interface Props {
       onInactiveStyles?: string;
       onHoverStyles?: string;
     };
-    link?: {
-      icon?: any;
-      enabled: boolean;
-      onActiveStyles?: string;
-      onInactiveStyles?: string;
-      onHoverStyles?: string;
-    };
   };
 }
+
 const Toolbar = (props: Props) => {
   const [editor] = useLexicalComposerContext();
   const [isBold, setIsBold] = useState(false);
   const [isItalic, setIsItalic] = useState(false);
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrikeThrough, setIsStrikeThrough] = useState(false);
-  const [isLink, setIsLink] = useState(false);
+  const [importedDocHtml, setImportedDocHtml] = useState<string>('');
   const updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
@@ -84,22 +72,9 @@ const Toolbar = (props: Props) => {
       setIsItalic(selection.hasFormat('italic'));
       setIsUnderline(selection.hasFormat('underline'));
       setIsStrikeThrough(selection.hasFormat('strikethrough'));
-      const node = getSelectedNode(selection) as any;
-      const parent = node.getParent();
-      if ($isLinkNode(parent) || $isLinkNode(node)) {
-        setIsLink(true);
-      } else {
-        setIsLink(false);
-      }
     }
   }, [editor]);
-  const insertLink = useCallback(() => {
-    if (!isLink) {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, 'https://');
-    } else {
-      editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
-    }
-  }, [editor, isLink]);
+
   useEffect(() => {
     return mergeRegister(
       editor.registerUpdateListener(({ editorState }: any) => {
@@ -160,36 +135,29 @@ const Toolbar = (props: Props) => {
           )}
         </button>
       )}
-      {props.editor?.link?.enabled && (
-        <button
-          className={'toolbar-item spaced' + (isLink ? ' active' : '')}
-          onClick={insertLink}
-          aria-label='Format Underline'
-        >
-          {props.editor?.link?.icon || (
-            <FontAwesomeIcon icon={faStrikethrough} />
-          )}
-        </button>
-      )}
       {props.editor?.docsImporter?.enabled && (
-        <input
-          type='file'
-          name='docx'
-          onChange={async (e) => {
-            if (e.target.files && e.target.files?.length > 0) {
-              const file: File = e.target.files[0];
-              file.arrayBuffer().then(async (buffer) => {
-                let x = Buffer.from(buffer);
-              });
-            }
-          }}
-        />
+        <div>
+          <input
+            type='file'
+            name='docx'
+            placeholder='Import Word Doc'
+            onChange={async (e) => {
+              if (e.target.files && e.target.files?.length > 0) {
+                const file: File = e.target.files[0];
+                file.arrayBuffer().then(async (buffer) => {
+                  //This buffer needs to be passed to mammoth to convert to html
+                  importDocx(buffer).then((doc) => {
+                    setImportedDocHtml(doc.html as string);
+                  });
+                });
+              }
+            }}
+          />
+          <div dangerouslySetInnerHTML={{ __html: importedDocHtml }} />
+        </div>
       )}
     </div>
   );
 };
 
 export default Toolbar;
-function getSelectedNode(selection: RangeSelection) {
-  throw new Error('Function not implemented.');
-}
